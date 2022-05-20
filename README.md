@@ -1,1 +1,2 @@
-# game-dama
+# Desafio técnico
+- Foco Front-end
