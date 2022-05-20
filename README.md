@@ -17,6 +17,18 @@ Nesse desafio busca-se implementar um subconjunto desses movimentos, **não send
 
 A interface está dividida em três blocos:
 - Uma coluna com 2 / 3 da página contendo o tabuleiro em si
-    - Outra coluna, com dois blocos dispostos na vertical para configurações
-- O bloco superior contém uma opção para mudar a cor das peças dos jogadores
+- Outra coluna, com dois blocos dispostos na vertical para configurações
+    - O bloco superior contém uma opção para mudar a cor das peças dos jogadores
 - A altura atribuida às duas caixas da segunda coluna deve ser a mesma da caixa atribuida ao jogo.
+
+### Estado inicial
+- Na inicialização da aplicação, todas as peças devem ocupar as casas iniciais de cor escura mais próximas do seu jogar, nas duas primeiras fileiras
+- Cada jogador tem uma cor atribuída às suas peças
+    - Jogador Alfa: peças pretas
+    - Jogador Beta: peças vermelhas
+- A interface está dividida em três blocos:
+    - Uma coluna com 2 / 3 da página contendo o tabuleiro em si
+    - Outra coluna, com dois blocos dispostos na vertical para configurações
+        - O bloco superior contém uma opção para mudar a cor das peças dos jogadores. Ao utilizar essa opção, a cor das peças deve mudar instantaneamente no tabuleiro, sem refresh
+        - O bloco inferior contém uma opção para reiniciar o jogo. Ao acionar essa opção a aplicação deve voltar ao estado inicial sem dar refresh na página. Essa opção não deve resetar as cores das peças.
+
