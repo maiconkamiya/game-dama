@@ -16,7 +16,7 @@ Nesse desafio busca-se implementar um subconjunto desses movimentos, **não send
 ### Estrutura básica da página
 
 A interface está dividida em três blocos:
-Uma coluna com 2 / 3 da página contendo o tabuleiro em si
-Outra coluna, com dois blocos dispostos na vertical para configurações
-O bloco superior contém uma opção para mudar a cor das peças dos jogadores
-A altura atribuida às duas caixas da segunda coluna deve ser a mesma da caixa atribuida ao jogo.
+- Uma coluna com 2 / 3 da página contendo o tabuleiro em si
+    - Outra coluna, com dois blocos dispostos na vertical para configurações
+- O bloco superior contém uma opção para mudar a cor das peças dos jogadores
+- A altura atribuida às duas caixas da segunda coluna deve ser a mesma da caixa atribuida ao jogo.
