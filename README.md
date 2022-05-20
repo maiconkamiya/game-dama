@@ -12,7 +12,7 @@ Verifica-se também a capacidade de seguir uma guia/determinação visual especi
 Damas é um jogo popular de tabuleiro 8 x 8 em que as peças ocupam somente as casas de uma determinada cor. As peças movem-se somente na diagonal e para casas desocupadas.
 Nesse desafio busca-se implementar um subconjunto desses movimentos, não sendo necessário implementar todo o jogo.
 
-##Recursos a serem implementados:
+## Recursos a serem implementados:
 ### Estrutura básica da página
 
 A interface está dividida em três blocos:
