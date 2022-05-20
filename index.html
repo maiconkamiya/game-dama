@@ -361,23 +361,23 @@
                                         if(this.partBefore.piece == 'beta'){
                                             console.log('',this.partBefore.piece);	
 
-                                            var casa_meio = null, peca_meio = null;
+                                            var houseKill = null;
                                             if(nJ < aJ){
                                                 if (aI > nI){
-                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ+1));	
+                                                    houseKill = this.houses.find(el => el.x == (aI-1) && el.y == (nJ+1));
                                                 } else {
-                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ+1));	
+                                                    houseKill = this.houses.find(el => el.x == (aI+1) && el.y == (nJ+1));
                                                 }
                                             }else{
                                                 if (aI > nI){
-                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ-1));
+                                                    houseKill = this.houses.find(el => el.x == (aI-1) && el.y == (nJ-1));
                                                 } else {
-                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ-1));
+                                                    houseKill = this.houses.find(el => el.x == (aI+1) && el.y == (nJ-1));
                                                 }
                                             }
                                             
-                                            if(casa_meio.piece != null && casa_meio.piece == 'alpha'){
-                                                casa_meio.piece = null;
+                                            if(houseKill.piece != null && houseKill.piece == 'alpha'){
+                                                houseKill.piece = null;
                                                 this.scoreBeta++;
                                                 this.selectedHouse.piece = this.houseBefore.piece;	
                                                 this.houseBefore.piece = null;
@@ -385,23 +385,23 @@
                                         } else if(this.partBefore.piece == 'alpha'){
                                             console.log('',this.partBefore.piece);	
 
-                                            var casa_meio = null, peca_meio = null;
+                                            var houseKill = null;
                                             if(nJ < aJ){
                                                 if (aI < nI){
-                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ+1));	
+                                                    houseKill = this.houses.find(el => el.x == (aI+1) && el.y == (nJ+1));
                                                 } else {
-                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ+1));	
+                                                    houseKill = this.houses.find(el => el.x == (aI-1) && el.y == (nJ+1));
                                                 }							
                                             }else{
                                                 if (aI < nI){
-                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ-1));
+                                                    houseKill = this.houses.find(el => el.x == (aI+1) && el.y == (nJ-1));
                                                 } else {
-                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ-1));
+                                                    houseKill = this.houses.find(el => el.x == (aI-1) && el.y == (nJ-1));
                                                 }
                                             }
                                             
-                                            if(casa_meio.piece != null && casa_meio.piece == 'beta'){
-                                                casa_meio.piece = null;
+                                            if(houseKill.piece != null && houseKill.piece == 'beta'){
+                                                houseKill.piece = null;
                                                 this.scoreAlpha++;
                                                 this.selectedHouse.piece = this.houseBefore.piece;	
                                                 this.houseBefore.piece = null;
@@ -411,9 +411,6 @@
                                 }
                             }
                         }
-                        
-
-                        //this.houses.find(el => el.x == obj.x && el.y == obj.y).selected = true;
                     }                    
                 }
             });
