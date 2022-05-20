@@ -41,3 +41,21 @@ A interface está dividida em três blocos:
     - Deseja-se usar drag-and-drop (arrastar) para mover a peça de uma casa para outra.
 - Frise-se: não é esperado implementar o jogo. Somente alguns dos movimentos e validações para a finalidade dessa avaliação.
 
+### Considerações tecnológicas e estéticas
+- Espera-se o emprego de VueJs ou ReactJs para a implementação dos componentes visuais
+- Deve haver um componente específico representando a peça.
+- Você pode usar a forma que achar mais adequada para controlar o estado do jogo, cores das peças e ações mencionadas.
+- As peças e tabuleiro devem obrigatoriamente ser construídos usando elementos HTML e não imagens ou gráficos pré-criados.
+- Animações são desnecessárias
+- Alinhe os elementos de forma harmônica (peça dentro da casa, distâncias entre elementos e bordas, etc)
+
+### Entrega
+- Deve ser entregue um único repositório git com tudo o que for necessário para executar a aplicação localmente em ambiente de teste
+- A aplicação não deve depender de pacotes instalados no sistema para além do NPM ou YARN como gestão de dependências
+- Informe no README.md do projeto quaisquer dependências externas utilizadas e a sua motivação.
+- A aplicação deve ser capaz de iniciar utilizando os comandos abaixo (ou a versão equivalente com yarn)
+
+```
+npm install
+npm start
+```
