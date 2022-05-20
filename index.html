@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/vue@2"></script>
+        <style>
+            body {
+                background: #aaa;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            #app {
+                background: #fff;
+                border: #666 solid 1px;
+                max-width: 980px;
+                margin: 20px auto;
+            }
+
+            .title {
+                padding: 5px 10px;
+                border-bottom: #999 solid 1px;
+            }
+
+            .btn-control {
+                float: right;
+                margin: 0;
+                padding: 0;
+            }
+
+            .btn-control li {
+                float: left;
+                content: ' ';
+                border: #666 solid 1px;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                list-style: none;
+                margin-left: 5px;
+            }
+
+            .btn-control li:last-child {
+                border-color: cornflowerblue;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .text-bold {
+                font-weight: 700;
+            }
+
+            .panel {
+                background: #eee;
+                margin: 10px;
+                box-shadow: #666 2px 2px 2px;
+                padding: 10px 15px;
+                height: calc(100% - 40px);
+            }
+
+            .row {
+                display: flex;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+            }
+            .col-1, .col-2, .col-3 {
+                position: relative;
+                width: 100%;
+            }
+            .col-1 {
+                -ms-flex: 0 0 33.33333%;
+                flex: 0 0 33.33333%;
+                max-width: 33.33333%;
+            }
+            .col-2 {
+                -ms-flex: 0 0 66.66667%;
+                flex: 0 0 66.66667%;
+                max-width: 66.66667%;
+            }
+            .col-3 {
+                -ms-flex: 0 0 100%;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            #tabuleiro {
+                background: #fff;   
+                width: 400px;
+                padding: 10px;
+                margin: 20px auto; 
+            }
+
+            #tabuleiro > div {
+                border: #333 solid 1px;           
+                width: 400px;
+            }
+
+            .tabX {                
+                height:50px;
+            }
+
+            .tabY {
+                width:50px;
+                height:100%;	
+                float:left;
+                cursor: pointer;
+            }
+
+            .tabSelected {                
+                background: blueviolet !important; 
+            }
+
+            .beta, .alpha {
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                border-radius: 100%;
+                margin: 5px;
+            }
+
+            .bg-burlywood{
+                background-color: #927F43;
+            }
+
+            .h50 {
+                height: 50%;
+            }
+
+            h1 {
+                font-size: 14pt;
+            }
+
+            label {
+                padding: 10px 15px;
+            }
+
+            select {
+                padding: 5px;
+                border-radius: 5px;
+            }
+
+            button {
+                background-color: rgb(144, 211, 112);
+                margin: 20px 0;
+                padding: 10px 15px;
+                border: rgb(55, 107, 49) solid 1px;
+                font-weight: 700;
+                color: rgb(55, 107, 49);
+                border-radius: 5px;
+                cursor: pointer;
+                width: 180px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="app">
+            <div class="title">
+                APLICACAO
+                <ul class="btn-control">
+                    <li> </li>
+                    <li> </li>
+                    <li> </li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="panel">
+                            <h1 class="text-center">JOGADOR {{nameBeta}}</h1>
+    
+                            <div id="tabuleiro">
+                                <div>
+                                    <div class="tabX" v-for="linha in x" >
+                                        <div class="tabY" v-for="coluna in y" :class="{'bg-burlywood' : !houses.find(obj => obj.x == linha && obj.y == coluna).white, 'tabSelected' : houses.find(obj => obj.x == linha && obj.y == coluna).selected}" 
+                                            @click="clickHouse(houses.find(obj => obj.x == linha && obj.y == coluna), $event)"
+                                            @dragover="handleOnDragOver(houses.find(obj => obj.x == linha && obj.y == coluna), $event)"
+                                            @drop="onDrop(houses.find(obj => obj.x == linha && obj.y == coluna), $event)">
+                                            <div class="tabHouse" :class="houses.find(obj => obj.x == linha && obj.y == coluna).piece" :style="{'background-color': (houses.find(obj => obj.x == linha && obj.y == coluna).piece == 'beta' ? colorBeta : colorAlpha )}" 
+                                                draggable="true"
+                                                @dragstart="handleDragStart(houses.find(obj => obj.x == linha && obj.y == coluna), $event)"
+                                                @dragend="handleDragEnd(houses.find(obj => obj.x == linha && obj.y == coluna), $event)"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                            </div>
+    
+                            <h1 class="text-center">JOGADOR {{nameAlpha}}</h1>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <div class="row h50">
+                            <div class="col-3" id="configuracao">
+                                <div class="panel">
+                                    <h1>Configuração de estilo</h1>
+                                    <p class="text-bold">Jogador {{nameAlpha}}</p>
+                                    <div>
+                                        <label>Cor das peças</label>
+                                        <select v-model="colorAlpha" :style="bgColorAlpha">
+                                            <option  v-for="color in colors" :value="color" :style="{'background-color' : color}">   </option>
+                                        </select>
+                                    </div>
+                                    <p class="text-bold">Jogador {{nameBeta}}</p>
+                                    <div>
+                                        <label>Cor das peças</label>
+                                        <select v-model="colorBeta" :style="bgColorBeta">
+                                            <option  v-for="color in colors" :value="color" :style="{'background-color' : color}">   </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row h50">
+                            <div class="col-3" id="geral">
+                                <div class="panel">
+                                    <h1>Geral</h1>
+                                    <div class="text-center">
+                                        <button @click="reset()">Reiniciar peças</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    x: [],
+                    y: [],
+                    houses: [],
+                    selectedHouse: null,
+                    selectedPart: null,
+                    houseBefore: null,
+                    partBefore: null,
+                    scoreAlpha:0,
+                    scoreBeta:0,
+                    nameBeta: 'BETA',
+                    nameAlpha: 'ALPHA',
+                    colorBeta: 'red',
+                    colorAlpha: 'black',
+                    colors: ['red','black','green','blue']
+                },
+                mounted:function(){
+                    this.init() //method1 will execute at pageload
+                },
+                computed: {
+                    bgColorBeta: function(){
+                        return {'background-color': this.colorBeta};
+                    },
+                    bgColorAlpha: function(){
+                        return {'background-color': this.colorAlpha};
+                    }
+                },
+                methods: {
+                    init: function(){
+                        for (var i = 0; i < 8; i++){
+                            for (var j=0; j<8; j++){
+                                this.houses.push({x:i, y:j, piece: null, white:(i%2==0?(j%2==0):(j%2!=0)), selected: false});
+                            }
+                        }
+
+                        for (var i = 0; i < this.houses.length; i++){
+                            var house = this.houses[i];
+
+                            if (!house.white){
+                                if (house.x < 2){
+                                    house.piece = 'beta';
+                                } else if (house.x > 5){
+                                    house.piece = 'alpha';
+                                }
+                            }                          
+                        }
+
+                        this.x = [0,1,2,3,4,5,6,7];
+                        this.y = [0,1,2,3,4,5,6,7];
+                    },
+                    reset: function(){
+                        for (var i = 0; i < 8; i++){
+                            for (var j=0; j<8; j++){
+                                this.houses.find(obj => obj.x == i && obj.y == j).piece = null;
+                            }
+                        }
+
+                        for (var i = 0; i < this.houses.length; i++){
+                            var house = this.houses[i];
+
+                            if (!house.white){
+                                if (house.x < 2){
+                                    house.piece = 'beta';
+                                } else if (house.x > 5){
+                                    house.piece = 'alpha';
+                                }
+                            }                          
+                        }
+
+                        this.scoreAlpha = 0;
+                        this.scoreBeta = 0;
+                    },
+                    handleOnDragOver: function(obj, event){
+                        event.preventDefault();
+                    },
+                    handleDragStart: function(obj, event){
+                        this.clickHouse(obj);
+                    },
+                    handleDragEnd: function(obj, event){
+                    },
+                    onDragLeave: function(obj, event){
+                        
+                    },
+                    onDrop: function(obj, event){
+                        event.preventDefault(); 
+                        this.clickHouse(obj);
+                    },
+                    clickHouse: function(obj, event) {
+	                    var aI, aJ, nI, nJ, dI, dJ;
+
+                        if(this.selectedPart != null){
+                            aI = parseInt(this.selectedHouse.x);
+                            aJ = parseInt(this.selectedHouse.y);
+                            
+                            nI = parseInt(obj.x);
+                            nJ = parseInt(obj.y);
+
+                            dI = parseInt(((aI - nI) < 0?(aI - nI)*(-1):(aI - nI)));
+                            dJ = parseInt(((aJ - nJ) < 0?(aJ - nJ)*(-1):(aJ - nJ)));   
+                            this.partBefore = this.selectedPart;      
+                        }
+
+                        if (this.selectedHouse != null){
+                            this.selectedHouse.selected = false;
+                            this.houseBefore = this.selectedHouse;
+                        }
+
+                        this.selectedHouse = this.houses.find(el => el.x == obj.x && el.y == obj.y);                       
+
+                        if (this.selectedHouse.piece != null){
+                            this.selectedPart = this.houses.find(el => el.x == obj.x && el.y == obj.y);
+                        } else {
+                            this.selectedPart = null;
+                        }
+
+                        this.selectedHouse.selected = true;
+
+                        if (this.selectedPart == null){
+                            if (this.partBefore != null){	
+                                if (
+                                    (this.partBefore.piece == 'beta') ||
+                                    (this.partBefore.piece == 'alpha') 
+                                ){
+                                    if((dI == 1) && (dJ == 1)){		
+                                        this.selectedHouse.piece = this.houseBefore.piece;	
+                                        this.houseBefore.piece = null;
+                                    } else if((dI == 2) && (dJ == 2)){
+                                        if(this.partBefore.piece == 'beta'){
+                                            console.log('',this.partBefore.piece);	
+
+                                            var casa_meio = null, peca_meio = null;
+                                            if(nJ < aJ){
+                                                if (aI > nI){
+                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ+1));	
+                                                } else {
+                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ+1));	
+                                                }
+                                            }else{
+                                                if (aI > nI){
+                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ-1));
+                                                } else {
+                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ-1));
+                                                }
+                                            }
+                                            
+                                            if(casa_meio.piece != null && casa_meio.piece == 'alpha'){
+                                                casa_meio.piece = null;
+                                                this.scoreBeta++;
+                                                this.selectedHouse.piece = this.houseBefore.piece;	
+                                                this.houseBefore.piece = null;
+                                            }
+                                        } else if(this.partBefore.piece == 'alpha'){
+                                            console.log('',this.partBefore.piece);	
+
+                                            var casa_meio = null, peca_meio = null;
+                                            if(nJ < aJ){
+                                                if (aI < nI){
+                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ+1));	
+                                                } else {
+                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ+1));	
+                                                }							
+                                            }else{
+                                                if (aI < nI){
+                                                    casa_meio = this.houses.find(el => el.x == (aI+1) && el.y == (nJ-1));
+                                                } else {
+                                                    casa_meio = this.houses.find(el => el.x == (aI-1) && el.y == (nJ-1));
+                                                }
+                                            }
+                                            
+                                            if(casa_meio.piece != null && casa_meio.piece == 'beta'){
+                                                casa_meio.piece = null;
+                                                this.scoreAlpha++;
+                                                this.selectedHouse.piece = this.houseBefore.piece;	
+                                                this.houseBefore.piece = null;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+
+                        //this.houses.find(el => el.x == obj.x && el.y == obj.y).selected = true;
+                    }                    
+                }
+            });
+
+        </script>
+    </body>
+</html>
