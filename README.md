@@ -1,3 +1,5 @@
+Foi utilizado CDN VueJS
+
 ```
 <script src="https://unpkg.com/vue@2"></script>
 ```
