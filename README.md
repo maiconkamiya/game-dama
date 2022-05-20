@@ -32,3 +32,12 @@ A interface está dividida em três blocos:
         - O bloco superior contém uma opção para mudar a cor das peças dos jogadores. Ao utilizar essa opção, a cor das peças deve mudar instantaneamente no tabuleiro, sem refresh
         - O bloco inferior contém uma opção para reiniciar o jogo. Ao acionar essa opção a aplicação deve voltar ao estado inicial sem dar refresh na página. Essa opção não deve resetar as cores das peças.
 
+### Movimentos válidos
+- Uma peça só pode se mover na diagonal e para uma casa de fileira adjacente (tanto para frente como para trás)
+- Uma peça só pode se mover para uma casa desocupada
+- Não é necessário implementar turno (vez) do jogador. Pode ser possível mover qualquer peça a qualquer momento, desde que seguindo os critérios anteriores
+- Se o jogador tentar mover a peça para uma casa inválida, desconsidere sua ação
+- **Interação visual:**
+    - Deseja-se usar drag-and-drop (arrastar) para mover a peça de uma casa para outra.
+- Frise-se: não é esperado implementar o jogo. Somente alguns dos movimentos e validações para a finalidade dessa avaliação.
+
