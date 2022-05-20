@@ -1,4 +1,4 @@
-Foi utilizado CDN VueJS
+Foi utilizado somente o CDN VueJS
 
 ```
 <script src="https://unpkg.com/vue@2"></script>
