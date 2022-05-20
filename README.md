@@ -1,3 +1,7 @@
+```
+<script src="https://unpkg.com/vue@2"></script>
+```
+
 # Desafio técnico
 ##### Foco Front-end
 
